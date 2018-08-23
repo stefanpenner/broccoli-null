@@ -1,5 +1,5 @@
 'use strict';
-
+// lets leave this ES5 compat as long as possible
 var Plugin = require('broccoli-plugin');
 var BROCCOLI_NULL_VERSION = '_1_';
 

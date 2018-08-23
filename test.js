@@ -7,10 +7,11 @@ const createBuilder = helper.createBuilder;
 const createTempDir = helper.createTempDir;
 const merge = require('broccoli-merge-trees');
 const fs = require('fs');
+const co = require('co');
 
 describe('broccoli-null', function() {
-  it('does nothing', async function() {
-    const input = await createTempDir();
+  it('does nothing', co.wrap(function* () {
+    const input = yield createTempDir();
 
     const subject = new Null(input.path());
     const output = createBuilder(subject);
@@ -22,19 +23,19 @@ describe('broccoli-null', function() {
       },
     });
 
-    await output.build();
+    yield output.build();
 
     expect(output.read()).to.deep.equal({});
     expect(output.changes()).to.deep.equal({});
 
-    await output.build();
+    yield output.build();
 
     expect(output.read()).to.deep.equal({});
     expect(output.changes()).to.deep.equal({});
-  });
+  }));
 
-  it(`doesn't require an input`, async function() {
-    const input = await createTempDir();
+  it(`doesn't require an input`, co.wrap(function* () {
+    const input = yield createTempDir();
 
     const subject = new Null();
     const output = createBuilder(subject);
@@ -46,17 +47,16 @@ describe('broccoli-null', function() {
       },
     });
 
-    await output.build();
+    yield output.build();
 
     expect(output.read()).to.deep.equal({});
     expect(output.changes()).to.deep.equal({});
 
-    await output.build();
+    yield output.build();
 
     expect(output.read()).to.deep.equal({});
     expect(output.changes()).to.deep.equal({});
-  });
-
+  }));
 
   describe('constant', function(){
     const originalBuild = Null.prototype.build;
@@ -83,13 +83,13 @@ describe('broccoli-null', function() {
       expect(Null.NULL).to.eql(new FreshNull());
     });
 
-    it('only builds once', async function() {
+    it('only builds once', co.wrap(function* () {
       let count = 0;
       Null.prototype.build = function() {
         count++;
       };
 
-      const input = await createTempDir();
+      const input = yield createTempDir();
 
       const output = createBuilder(merge([new Null(), new Null(), Null.NULL, Null.NULL]));
       input.write({
@@ -101,18 +101,18 @@ describe('broccoli-null', function() {
       });
 
       expect(count).to.eql(0);
-      await output.build();
+      yield output.build();
       expect(count).to.eql(1);
 
       expect(output.read()).to.deep.equal({});
       expect(output.changes()).to.deep.equal({});
 
-      await output.build();
+      yield output.build();
       expect(count).to.eql(2);
 
       expect(output.read()).to.deep.equal({});
       expect(output.changes()).to.deep.equal({});
-    });
+    }));
   });
 
   it('does not support call constructor', function() {
