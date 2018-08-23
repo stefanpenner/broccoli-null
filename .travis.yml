@@ -1,0 +1,21 @@
+sudo: false
+dist: trusty
+
+addons:
+  chrome: stable
+
+language: node_js
+node_js:
+  - "6"
+  - "8"
+  - "10"
+
+branches:
+  only:
+    - master
+
+cache:
+  yarn: true
+
+script:
+  - yarn test
