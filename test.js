@@ -113,5 +113,9 @@ describe('broccoli-null', function() {
       expect(output.read()).to.deep.equal({});
       expect(output.changes()).to.deep.equal({});
     });
-  })
+  });
+
+  it('does not support call constructor', function() {
+    expect(() => Null()).to.throw(/Failed to construct/);
+  });
 });

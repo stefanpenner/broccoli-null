@@ -14,6 +14,10 @@ function setGlobal(tree) {
 }
 
 function Null() {
+  if (!(this instanceof Null)) {
+    throw new TypeError("Failed to construct 'broccoli-null': Please use the 'new' operator, this object constructor cannot be called as a function.");
+  }
+
   let NULL = getGlobal();
   if (this.constructor.isNull(NULL)) {
     return NULL;
