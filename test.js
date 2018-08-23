@@ -68,6 +68,12 @@ describe('broccoli-null', function() {
 
     it('provides a constant', function() {
       expect(Null.NULL).to.eql(Null.NULL);
+      expect(process['BROCCOLI_NULL_VERSION_1_']).to.eql(Null.NULL);
+      delete process['BROCCOLI_NULL_VERSION_1_'];
+      expect(process['BROCCOLI_NULL_VERSION_1_']).to.eql(undefined);
+      expect(Null.NULL).to.not.eql(undefined);
+      expect(Null.NULL).to.eql(Null.NULL);
+      expect(new Null()).to.eql(Null.NULL);
     });
 
     it('is a constant', function() {

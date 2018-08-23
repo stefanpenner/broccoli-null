@@ -45,6 +45,6 @@ Null.isNull = function(maybe) {
 Null.prototype.BROCCOLI_NULL_VERSION = BROCCOLI_NULL_VERSION;
 Object.defineProperty(Null, 'NULL', {
   get: function() {
-    return getGlobal();
+    return getGlobal() || new this;
   }
 });
